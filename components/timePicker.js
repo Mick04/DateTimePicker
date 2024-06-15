@@ -1,11 +1,10 @@
 import { Platform } from "react-native";
 import React, { useState } from "react";
-import { StyleSheet, View, Button } from "react-native";
+import { StyleSheet, View,Text, Button, } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 export default function TimePicker({ valDate, onChange }) {
   const [show, setShow] = useState(false);
-
   const handleChange = (event, selectedDate) => {
     const currentDate = selectedDate || valDate;
     setShow(false); // Hide after selection on Android
@@ -24,9 +23,8 @@ export default function TimePicker({ valDate, onChange }) {
           display="spinner"
         />
       )}
-      {/* )} */}
-      {/* ... */}
     </View>
+
   );
 }
 
@@ -37,4 +35,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     margin: 10,
   },
-});
+    reset: {
+      backgroundColor: "#fff",
+      alignItems: "top",
+      justifyContent: "center",
+      margin: 10,
+    },
+  }); 
+
