@@ -1,15 +1,30 @@
-import { StyleSheet, View, Text } from "react-native";
+import { Platform } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, View, Button } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 export default function TimePicker({ valDate, onChange }) {
+  const [show, setShow] = useState(false);
+
+  const handleChange = (event, selectedDate) => {
+    const currentDate = selectedDate || valDate;
+    setShow(false); // Hide after selection on Android
+    onChange(event, currentDate);
+  };
+
   return (
     <View style={styles.container}>
-      <DateTimePicker
-        value={valDate}
-        mode={"time"}
-        is24Hour={true}
-        onChange={onChange}
-      />
+      <Button title="Reset Time" onPress={() => setShow(true)} />
+      {show && (
+        <DateTimePicker
+          value={valDate}
+          mode={"time"}
+          onChange={handleChange}
+          is24Hour={true}
+          display="spinner"
+        />
+      )}
+      {/* )} */}
       {/* ... */}
     </View>
   );
@@ -17,7 +32,6 @@ export default function TimePicker({ valDate, onChange }) {
 
 const styles = StyleSheet.create({
   container: {
-  
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
