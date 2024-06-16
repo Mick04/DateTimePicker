@@ -7,7 +7,8 @@ export default function TimePicker({ valDate, onChange }) {
   const [show, setShow] = useState(false);
   const handleChange = (event, selectedDate) => {
     const currentDate = selectedDate || valDate;
-    setShow(false); // Hide after selection on Android
+    setShow(Platform.OS === 'ios');
+    // setShow(false); // Hide after selection on Android
     onChange(event, currentDate);
   };
 

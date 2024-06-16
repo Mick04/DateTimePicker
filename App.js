@@ -23,6 +23,7 @@ export default function App() {
     setDate1(selectedDate);
   };
   const onChange2 = (e, selectedDate) => {
+  
     const hours = selectedDate.getHours();
     if (hours <= 12) {
       Alert.alert("AM Time Selected", "Converting to PM time.");
@@ -36,7 +37,7 @@ export default function App() {
         <Text style={styles.dataReset}>
           {Reset ? "Press To Reset The Time" : "PRESS WHEN FINISHED"}
         </Text>
-        <Text style={styles.dataReset}>{Reset.toString()}</Text>
+        {/* <Text style={styles.dataReset}>{Reset.toString()}</Text> */}
       </TouchableOpacity>
       {!Reset && ( // Add this line to conditionally render the TimePicker components
         <>
