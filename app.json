@@ -21,7 +21,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.mick5y4.DateTimePickerTutorialReactNative"
     },
     "web": {
       "favicon": "./assets/favicon.png"
