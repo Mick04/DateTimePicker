@@ -1,3 +1,4 @@
+// App.js
 import { StatusBar } from "expo-status-bar";
 import {
   StyleSheet,
@@ -10,17 +11,36 @@ import {
 import { useState } from "react";
 
 // Import custom components for time and temperature selection
-import TimePicker from "./components/timePicker";
+import DatePickerModal from "./components/DatePickerModal"; // Adjust the path as necessary
 import TemperaturePicker from "./components/TemperaturePicker";
 
 export default function App() {
   // State hooks for managing dates, reset flag, and temperatures
-  const [date1, setDate1] = useState(new Date());
-  const [date2, setDate2] = useState(new Date());
-  const [Reset, setReset] = useState(false);
+  // const [date1, setDate1] = useState(new Date());
+  // const [date2, setDate2] = useState(new Date());
+  const [Reset, setReset] = useState(true);
   const [amTemperature, setAmTemperature] = useState(null);
   const [pmTemperature, setPmTemperature] = useState(null);
-  
+  const [isAMDatePickerVisible, setAMDatePickerVisibility] = useState(false);
+  const [isPMDatePickerVisible, setPMDatePickerVisibility] = useState(false);
+  const [AMtime, setAMTime] = useState("");
+  const [PMtime, setPMTime] = useState("");
+
+  const handleOpenAMDatePicker = () => setAMDatePickerVisibility(true);
+  const handleOpenPMDatePicker = () => setPMDatePickerVisibility(true);
+  const handleCloseAMDatePicker = () => setAMDatePickerVisibility(false);
+  const handleClosePMDatePicker = () => setPMDatePickerVisibility(false);
+  const handleTimeChangeAM = (AMtime) => {
+    setAMTime(AMtime);
+    console.log(AMtime);
+    handleCloseAMDatePicker();
+  };
+  const handleTimeChangePM = (PMtime) => {
+    setPMTime(PMtime);
+    console.log(PMtime);
+    handleClosePMDatePicker();
+  };
+
   // Toggle the reset state and log current state for debugging
   const handleOnPress = () => {
     setReset(!Reset);
@@ -28,24 +48,24 @@ export default function App() {
   };
   // Handle change for AM TimePicker, converting PM times to AM if necessary
 
-  const onChange1 = (e, selectedDate) => {
-    const hours = selectedDate.getHours();
-    if (hours >= 12) {
-      Alert.alert("PM Time Selected", "Converting to AM time.");
-      selectedDate.setHours(hours - 12);
-    }
-    setDate1(selectedDate);
-  };
-  // Handle change for PM TimePicker, converting AM times to PM if necessary
+  // const onChange1 = (e, selectedDate) => {
+  //   const hours = selectedDate.getHours();
+  //   if (hours >= 12) {
+  //     Alert.alert("PM Time Selected", "Converting to AM time.");
+  //     selectedDate.setHours(hours - 12);
+  //   }
+  //   setDate1(selectedDate);
+  // };
+  // // Handle change for PM TimePicker, converting AM times to PM if necessary
 
-  const onChange2 = (e, selectedDate) => {
-    const hours = selectedDate.getHours();
-    if (hours <= 12) {
-      Alert.alert("AM Time Selected", "Converting to PM time.");
-      selectedDate.setHours(hours - 12);
-    }
-    setDate2(selectedDate);
-  };
+  // const onChange2 = (e, selectedDate) => {
+  //   const hours = selectedDate.getHours();
+  //   if (hours <= 12) {
+  //     Alert.alert("AM Time Selected", "Converting to PM time.");
+  //     selectedDate.setHours(hours - 12);
+  //   }
+  //   setDate2(selectedDate);
+  // };
   return (
     <SafeAreaView style={styles.container}>
       <View>
@@ -59,7 +79,7 @@ export default function App() {
         </TouchableOpacity>
       </View>
 
-      {!Reset && ( // Add this line to conditionally render the TimePicker components
+      {!Reset && ( // Add this line to conditionally render the TimePicker components START
         <>
           {/* TimePicker components for AM and PM times */}
           <View style={styles.pickerContainer}>
@@ -76,33 +96,60 @@ export default function App() {
             temperature={pmTemperature}
             onValueChange={(value) => setPmTemperature(value)}
           />
+          <TouchableOpacity
+            style={styles.reset}
+            onPress={handleOpenAMDatePicker}
+          >
+            <Text style={styles.dataReset}>Select AM Time</Text>
+            <DatePickerModal
+              isVisible={isAMDatePickerVisible}
+              onClose={handleCloseAMDatePicker}
+              onTimeChange={handleTimeChangeAM}
+            />
+            <Text style={styles.dataText}>
+              AM Time {AMtime}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handleOpenPMDatePicker}>
+            <Text style={styles.dataReset}>Select PM Time </Text>
+
+            <DatePickerModal
+              isVisible={isPMDatePickerVisible}
+              onClose={handleClosePMDatePicker}
+              onTimeChange={handleTimeChangePM}
+            />
+            <Text style={styles.dataText}>
+              PM Time  {PMtime}
+            </Text>
+          </TouchableOpacity>
         </>
       )}
-      <Text style={styles.temperatureText}>
-        AM Temperature:{" "}
-        {amTemperature !== null ? `${amTemperature}°C` : "Not selected"}
-      </Text>
-      <Text style={styles.temperatureText}>
-        PM Temperature:{" "}
-        {pmTemperature !== null ? `${pmTemperature}°C` : "Not selected"}
-      </Text>
-      <Text style={styles.dataText}>
-        AM Time {date1.toLocaleTimeString()}
-      </Text>
+      {/* Add this line to conditionally render the TimePicker components END */}
 
-      {/* {Reset} */}
+      {Reset && ( // Add this line to conditionally render the TimePicker components START
+        <>
+          <Text style={styles.temperatureText}> 
+            {`AM Temperature:     ${amTemperature !== null ? `${amTemperature}°C` : "Not selected"}`}
+          </Text>
+          <Text style={styles.temperatureText}>
+            
+           {`PM Temperature:    ${   pmTemperature !== null ? `${pmTemperature}°C` : "Not selected"}`}
+          </Text>
+        </>
+      )}
 
       <View style={styles.pickerContainer}>
-        {!Reset && ( // Add this line to conditionally render the TimePicker components
+        {Reset && ( // Add this line to conditionally render the TimePicker components
           <>
-            <TimePicker valDate={date1} onChange={onChange1} />
-            <TimePicker valDate={date2} onChange={onChange2} />
+            <Text style={styles.dataReset}>
+              {AMtime !== null ? `${AMtime}°C` : "Not selected"}
+            </Text>
+
+            <Text style={styles.dataReset}>
+              {PMtime !== null ? `${PMtime}°C` : "Not selected"}
+            </Text>
           </>
         )}
-        <Text style={styles.dataText}>
-          PM Time {date2.toLocaleTimeString()}
-        </Text>
-
         <StatusBar style="auto" />
       </View>
     </SafeAreaView>
