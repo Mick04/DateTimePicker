@@ -87,14 +87,15 @@ export default function App() {
             <TemperaturePicker
               label="AM"
               temperature={amTemperature}
-              onValueChange={(value) => setAmTemperature(value)}
+              onValueChange={setAmTemperature}
             />
           </View>
 
           <TemperaturePicker
             label="PM"
             temperature={pmTemperature}
-            onValueChange={(value) => setPmTemperature(value)}
+            onValueChange={setPmTemperature}
+            // onValueChange={(value) => setPmTemperature(value)}
           />
           <TouchableOpacity
             style={styles.reset}
@@ -106,9 +107,7 @@ export default function App() {
               onClose={handleCloseAMDatePicker}
               onTimeChange={handleTimeChangeAM}
             />
-            <Text style={styles.dataText}>
-              AM Time {AMtime}
-            </Text>
+            <Text style={styles.dataText}>AM Time {AMtime}</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={handleOpenPMDatePicker}>
             <Text style={styles.dataReset}>Select PM Time </Text>
@@ -118,9 +117,7 @@ export default function App() {
               onClose={handleClosePMDatePicker}
               onTimeChange={handleTimeChangePM}
             />
-            <Text style={styles.dataText}>
-              PM Time  {PMtime}
-            </Text>
+            <Text style={styles.dataText}>PM Time {PMtime}</Text>
           </TouchableOpacity>
         </>
       )}
@@ -128,12 +125,15 @@ export default function App() {
 
       {Reset && ( // Add this line to conditionally render the TimePicker components START
         <>
-          <Text style={styles.temperatureText}> 
-            {`AM Temperature:     ${amTemperature !== null ? `${amTemperature}°C` : "Not selected"}`}
+          <Text style={styles.temperatureText}>
+            {`AM Temperature:     ${
+              amTemperature !== null ? `${amTemperature}°C` : "Not selected"
+            }`}
           </Text>
           <Text style={styles.temperatureText}>
-            
-           {`PM Temperature:    ${   pmTemperature !== null ? `${pmTemperature}°C` : "Not selected"}`}
+            {`PM Temperature:    ${
+              pmTemperature !== null ? `${pmTemperature}°C` : "Not selected"
+            }`}
           </Text>
         </>
       )}
@@ -142,11 +142,11 @@ export default function App() {
         {Reset && ( // Add this line to conditionally render the TimePicker components
           <>
             <Text style={styles.dataReset}>
-              {AMtime !== null ? `${AMtime}°C` : "Not selected"}
+              {AMtime !== null ? `${AMtime} AM` : "Not selected"}
             </Text>
 
             <Text style={styles.dataReset}>
-              {PMtime !== null ? `${PMtime}°C` : "Not selected"}
+              {PMtime !== null ? `${PMtime} PM` : "Not selected"}
             </Text>
           </>
         )}
