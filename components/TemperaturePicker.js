@@ -11,8 +11,10 @@ const TemperaturePicker = ({ label, temperature, onValueChange }) => {
   }));
 
   // Render native Picker for Android
-  if (Platform.OS === "android") {// Check if the platform is Android
-    return (       // Return the native Picker component
+  if (Platform.OS === "android") {
+    // Check if the platform is Android
+    return (
+      // Return the native Picker component
       <View style={styles.container}>
         {/* <Text style={styles.label}>{label}   nnnnTemperature:</Text> */}
         <View style={styles.pickerWrapper}>
@@ -25,9 +27,9 @@ const TemperaturePicker = ({ label, temperature, onValueChange }) => {
             selectedValue={temperature}
             onValueChange={(itemValue) => onValueChange(itemValue)}
             mode="dropdown"
-          > 
+          >
             <Picker.Item
-            style={pickerSelectStyles.inputAndroid}
+              style={pickerSelectStyles.inputAndroid}
               label="Select a temperature..."
               value="Select a temperature..."
             />
@@ -35,7 +37,7 @@ const TemperaturePicker = ({ label, temperature, onValueChange }) => {
               console.log(`Rendering item: ${option.label}`);
               return (
                 <Picker.Item
-                 style={pickerSelectStyles.inputAndroid}// Add the style prop
+                  style={pickerSelectStyles.inputAndroid} // Add the style prop
                   key={option.value}
                   label={option.label}
                   value={option.label}
@@ -59,13 +61,14 @@ const TemperaturePicker = ({ label, temperature, onValueChange }) => {
         <RNPickerSelect
           onValueChange={onValueChange}
           items={temperatureOptions}
-          style={styles.inputIOS}
           placeholder={{
             label: "Select a temperature...",
             value: true,
           }}
           value={temperature}
           // useNativeAndroidPickerStyle={false} // Use custom styles for Android
+        textInputProps={{ style: pickerSelectStyles.inputIOS }}
+
         />
       </View>
     </View>
@@ -87,7 +90,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     justifyContent: "center",
     alignItems: "center",
-    width: "90%", // Adjust the width as necessary
+    // width: "90%", // Adjust the width as necessary
     paddingHorizontal: 10,
     paddingVertical: Platform.OS === "android" ? 10 : 15, // Adjust padding for Android
   },
@@ -99,24 +102,31 @@ const styles = StyleSheet.create({
 
 const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
-    fontSize: 16,
-    paddingVertical: 12,
+    fontSize: 24,
+    height: 40, // Set a fixed height
+    width: 200, // Set a fixed width if necessary, or use a percentage to fill the container
+    paddingVertical: 8,
     paddingHorizontal: 10,
-    color: "red",
+    // borderWidth: 1,
+    color: "black",
+    backgroundColor: "yellow",
+    // color: "red",
+    // borderRadius: 20,
+    
     paddingRight: 30, // to ensure the text is never behind the icon
   },
   inputAndroid: {
     fontSize: 24, // Adjust font size if needed
     paddingVertical: 8,
     paddingHorizontal: 10, // Adjust padding to fit within the container
-    borderWidth: 1,
-    borderColor: "red",
-    borderRadius: 8,
-    color: "black",
-    paddingRight: 30, // to ensure the text is never behind the icon
+    // borderWidth: 1,
+    // borderColor: "red",
+    // borderRadius: 20,
+    // color: "black",
+    // paddingRight: 100, // to ensure the text is never behind the icon
   },
   placeholder: {
-    fontSize: 16,
+    fontSize: 4,
     color: "red",
   },
 });
