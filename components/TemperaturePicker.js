@@ -6,7 +6,7 @@ import { Picker } from "@react-native-picker/picker"; // Import the native picke
 const TemperaturePicker = ({ label, temperature, onValueChange }) => {
   // Create an array of temperature options from 0 to 100
   const temperatureOptions = Array.from({ length: 30 }, (_, i) => ({
-    label: `${i}°C`,
+    label: `${i}`,
     value: i,
   }));
 
